@@ -1,32 +1,36 @@
 let map, pushpin, line;
 let previousPositions = [];
-let latitude = 0;
-let longitude = 0;
 
-async function fetchLocation() {
-    try {
-        const apiEndpoint = 'https://garbage-collect-backend.onrender.com/get';
 
-        // Fetch data from the API
-        const response = await fetch(apiEndpoint);
-        const data = await response.json();
 
-        // Extract latitude and longitude from the response
-        latitude = data.latitude;
-        longitude = data.longitude;
 
-        // Log the coordinates to the console (you can perform other actions here)
-        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
 
-        // Update the map with the new location
-        updateMapLocation(latitude, longitude);
-    } catch (error) {
-        console.error('Error fetching location:', error);
-    }
+// Variables to store latitude and longitude outside the function
+let value1;
+let value2;
+
+// Function to fetch data from the API every second
+function fetchData() {
+  fetch('https://garbage-collect-backend.onrender.com/get')
+    .then(response => response.json())
+    .then(data => {
+      // Extract latitude and longitude from the API response
+      value1 = data.latitude;
+      value2 = data.longitude;
+
+      // Log the values (you can replace this with your logic)
+      console.log('Latitude:', value1);
+      console.log('Longitude:', value2);
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
 }
 
-// Fetch location data every 5000 milliseconds (5 seconds)
-setInterval(fetchLocation, 500);
+// Call the fetchData function every second
+setInterval(fetchData, 100);
+
+
 
 function loadMapScenario() {
     map = new Microsoft.Maps.Map(document.getElementById('map'), {
@@ -34,14 +38,13 @@ function loadMapScenario() {
         zoom: 10
     });
 
-    // Initialize map with the initial location
-    initializeMap();
+    navigator.geolocation.getCurrentPosition(initializeMap);
 
     const options = {
         enableHighAccuracy: true,
-        timeout: 5000,
+        timeout: 1000,
         maximumAge: 0,
-        frequency: 500,  // Update every 5 seconds
+        frequency: 1000,  // Update every 5 seconds
         distanceFilter: 10 // Minimum distance of 10 meters
     };
 
@@ -49,9 +52,11 @@ function loadMapScenario() {
     navigator.geolocation.watchPosition(updateLocation, handleLocationError, options);
 }
 
-function initializeMap() {
-    const loc = new Microsoft.Maps.Location(latitude, longitude);
 
+
+function initializeMap(position) {
+    const loc = new Microsoft.Maps.Location(value1, value2);
+    
     // Create a pushpin for the current location
     pushpin = new Microsoft.Maps.Pushpin(loc);
     map.entities.push(pushpin);
@@ -70,8 +75,8 @@ function initializeMap() {
     map.entities.push(line);
 }
 
-function updateMapLocation(lat, lon) {
-    const loc = new Microsoft.Maps.Location(lat, lon);
+function updateLocation(position) {
+    const loc = new Microsoft.Maps.Location(value1, value2);
 
     // Update the pushpin's location
     pushpin.setLocation(loc);
