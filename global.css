@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  line-height: normal;
+}
+
+:root {
+  /* fonts */
+  --font-inter: Inter;
+  --font-nunito-sans: "Nunito Sans";
+
+  /* font sizes */
+  --font-size-5xl: 1.5rem;
+  --font-size-base: 1rem;
+  --font-size-9xl: 1.75rem;
+
+  /* Colors */
+  --color-white: #fff;
+  --color-black: #000;
+  --color-lightcoral: #ff6584;
+  --color-deepskyblue: #00d8ff;
+  --color-gray-100: #1e1e1e;
+  --color-gray-200: rgba(30, 30, 30, 0.62);
+  --color-mediumspringgreen: #3ddc84;
+  --color-dimgray: #707070;
+
+  /* Border radiuses */
+  --br-8xs: 5px;
+  --br-6xl: 25px;
+  --br-3xs: 10px;
+}
