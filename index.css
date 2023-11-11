@@ -4,12 +4,12 @@
   left: 20.31rem;
   letter-spacing: 0.1em;
 }
-.desktop-7-child,
+#map,
 .small-box-child {
   position: absolute;
   border-radius: var(--br-3xs);
 }
-.desktop-7-child {
+#map {
   top: 9.19rem;
   left: 2.75rem;
   width: 73.94rem;
